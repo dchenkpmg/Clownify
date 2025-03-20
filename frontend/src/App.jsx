@@ -1,23 +1,48 @@
 import { useState } from "react";
+import Icon from "@mdi/react";
+import { mdiGithub } from "@mdi/js";
+import SongForm from "./components/SongForm";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  // replace with results from fetching songs from db
+  const initialSongs = [
+    {
+      title: "Thanks fr th Mmrs",
+      album: "Infinity on High",
+      artist: "Fall Out Boy",
+    },
+    {
+      title: "Pain",
+      album: "Futures",
+      artist: "Jimmy Eat World",
+    },
+  ];
+  const [songs, setSongs] = useState(initialSongs);
 
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header className="app-header">
+        <h1>My Songs</h1>
+      </header>
+      <main>
+        <div className="form-section">
+          <SongForm songs={songs} setSongs={setSongs}></SongForm>
+        </div>
+        <div className="list-section">
+          <input type="text" name="q" placeholder="Search title..."></input>
+          <p>Placeholder Text</p>
+        </div>
+      </main>
+      <footer>
+        <a
+          href="https://github.com/dchenkpmg/Clownify"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon path={mdiGithub} size={1.5}></Icon>
+        </a>
+      </footer>
     </>
   );
 }
