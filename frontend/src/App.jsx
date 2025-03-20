@@ -79,7 +79,7 @@ function App() {
           {loading && <p>Song list is loadng...</p>}
           {error && <p>Error loading song list</p>}
           {filteredSongs.length > 0 ? (
-            <SongList songs={filteredSongs}></SongList>
+            <SongList songs={filteredSongs} setSongs={setSongs}></SongList>
           ) : (
             <p>No songs left</p>
           )}

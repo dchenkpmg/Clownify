@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
 from typing import Annotated
-from fastapi import Depends, FastAPI, Query
+from fastapi import Depends, FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database import create_db_and_tables, engine
@@ -42,11 +42,37 @@ async def read_songs(session: SessionDep, offset: int = 0, limit: Annotated[int,
     
 @app.patch("/api/songs/{song_id}")
 async def update_song(song_id: int, song: Song, session: SessionDep) -> Song:
-    return {"response": "ok"}
+    song_db = session.get(Song, song_id)
+    if not song_db:
+        raise HTTPException(status_code=404, detail="Song not found")
+    song_data = song.model_dump(exclude_unset=True)
+    song_db.sqlmodel_update(song_data)
+    session.add(song_db)
+    session.commit()
+    session.refresh(song_db)
+    return song_db
+
+
+# @app.patch("/api/songs/{song_id}")
+# def update_hero(hero_id: int, hero: HeroUpdate, session: SessionDep):
+#     hero_db = session.get(Hero, hero_id)
+#     if not hero_db:
+#         raise HTTPException(status_code=404, detail="Hero not found")
+#     hero_data = hero.model_dump(exclude_unset=True)
+#     hero_db.sqlmodel_update(hero_data)
+#     session.add(hero_db)
+#     session.commit()
+#     session.refresh(hero_db)
+#     return hero_db
 
 @app.delete("/api/songs/{song_id}")
 async def delete_song(session: SessionDep, song_id: int):
-    return {"response": "ok"}
+    song = session.get(Song, song_id)
+    if not song:
+        raise HTTPException(status_code=404, detail="Hero not found")
+    session.delete(song)
+    session.commit()
+    return {"ok": True}
 
 
 
