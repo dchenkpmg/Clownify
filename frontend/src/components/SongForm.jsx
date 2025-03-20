@@ -11,7 +11,7 @@ export default function SongForm({ songs, setSongs }) {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/songs", {
+      const response = await fetch("http://127.0.0.1:8000/api/songs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,17 +23,16 @@ export default function SongForm({ songs, setSongs }) {
         throw new Error("Network response was not ok");
       }
 
-      const data = await response.json();
+      const songData = await response.json();
+      setSongs([...songs, songData]);
       setResponseMessage("Song added successfully!");
-      console.log("Song added successfully:", data);
+      console.log("Song added successfully:", songData);
     } catch (error) {
       setResponseMessage("Error adding song");
       console.error("Error adding song:", error);
     } finally {
       setIsLoading(false);
     }
-
-    setSongs([...songs, formData]);
   };
 
   const handleChange = (e) => {

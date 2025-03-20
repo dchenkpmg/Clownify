@@ -1,0 +1,28 @@
+/* SongList.css */
+.song-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.song-item p {
+    margin: 5px 0;
+}
+
+.song-item button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.song-item button:hover {
+    background-color: #ddd;
+}
+
+.song-item button:active {
+    background-color: #ccc;
+}
